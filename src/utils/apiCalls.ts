@@ -7,12 +7,14 @@ export interface ApiResponse<T = any> {
   message?: String;
 }
 
+const url = `${process.env.BASE_UREL}:${process.env.PORT}/api/`;
+
 export const getCall = async (
   location: string,
   dataParams: Record<string, any>
 ): Promise<ApiResponse> => {
   try {
-    const response: AxiosResponse = await axios.get("/api/" + location, {
+    const response: AxiosResponse = await axios.get(url + location, {
       params: dataParams,
     });
     return { success: true, data: response.data };
@@ -33,7 +35,7 @@ export const postCall = async (
   };
   try {
     const response: AxiosResponse = await axios.post(
-      "/api/" + location,
+    url + location,
       dataParams,
       config
     );
@@ -60,7 +62,7 @@ export const patchCall = async (
   };
   try {
     const response: AxiosResponse = await axios.patch(
-      "/api/" + location,
+       url + location,
       dataParams,
       config
     );
