@@ -8,6 +8,7 @@ import { UserDetails, getUserDetails } from '../../store/reducres/userReducer';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useEffect } from 'react';
 import { getTotalCount } from '../../store/reducres/countReducer';
+import { enqueueSnackbar } from 'notistack';
 
 const useStyles = makeStyles({
   root: {
@@ -25,38 +26,44 @@ const useStyles = makeStyles({
     '&.MuiFormControl-root': {
       padding: '0',
       marginTop: '20px',
-      '& .MuiFormHelperText-root': {
-      },
+      '& .MuiFormHelperText-root': {},
     },
   },
   mtLg: {
     marginTop: '20px',
-  }
+  },
 });
 
 const validationSchema = yup.object({
   email: yup.string().email('Enter a valid email').required('Email is required'),
   name: yup.string().required('Name is required'),
-  phoneNumber: yup.string().min(10, 'Please enter a valid phone number').required('Phone number is required'),
+  phoneNumber: yup
+    .string()
+    .min(10, 'Please enter a valid phone number')
+    .max(10, 'Please enter a valid phone number')
+    .required('Phone number is required'),
 });
 
-const UpdateUserModal = ({ open = false, handleClose }: { open: boolean; handleClose: () => void; }) => {
+const UpdateUserModal = ({ open = false, handleClose }: { open: boolean; handleClose: () => void }) => {
   const styles = useStyles();
   const dispatch = useAppDispatch();
 
-  const storeUser: UserDetails = useAppSelector(state => state.user);
+  const storeUser: UserDetails = useAppSelector((state) => state.user);
 
   const handleSubmmit = async (values: FormikValues, userId: String) => {
-    const resp = await patchCall('update', {...values, userId});
-    if(resp.success)
-    {
+    const resp = await patchCall('update', { ...values, userId });
+    if (resp.success) {
       dispatch(getTotalCount());
+      dispatch(getUserDetails(localStorage.getItem('user')));
+      enqueueSnackbar("User updated successfully!", {
+        variant: 'success',
+      });
     }
   };
 
   useEffect(() => {
     dispatch(getUserDetails(localStorage.getItem('user')));
-  }, [])
+  }, []);
 
   const formik = useFormik({
     initialValues: {

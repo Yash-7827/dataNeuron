@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { getTotalCount } from '../../store/reducres/countReducer';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getUserDetails } from '../../store/reducres/userReducer';
+import { enqueueSnackbar } from 'notistack';
 
 const useStyles = makeStyles({
   root: {
@@ -52,6 +53,9 @@ const AddUserForm = ({ open, handleClose }: { open: boolean; handleClose: () => 
     if (resp.success) {
       dispatch(getUserDetails(localStorage.getItem('user')));
       dispatch(getTotalCount());
+      enqueueSnackbar("User added successfully!", {
+        variant: 'success',
+      });
     }
   };
 

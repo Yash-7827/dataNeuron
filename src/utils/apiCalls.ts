@@ -7,7 +7,7 @@ export interface ApiResponse<T = any> {
   message?: String;
 }
 
-const url = `${process.env.BASE_UREL}:${process.env.PORT}/api/`;
+const url = `http://15.207.19.227:4000/api/`;
 
 export const getCall = async (
   location: string,
