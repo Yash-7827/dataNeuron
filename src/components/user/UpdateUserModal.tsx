@@ -34,6 +34,7 @@ const useStyles = makeStyles({
   },
 });
 
+//Validation schema using yup for update user form
 const validationSchema = yup.object({
   email: yup.string().email('Enter a valid email').required('Email is required'),
   name: yup.string().required('Name is required'),
@@ -48,8 +49,10 @@ const UpdateUserModal = ({ open = false, handleClose }: { open: boolean; handleC
   const styles = useStyles();
   const dispatch = useAppDispatch();
 
+  //Redux state selector
   const storeUser: UserDetails = useAppSelector((state) => state.user);
 
+  //form submit handler
   const handleSubmmit = async (values: FormikValues, userId: String) => {
     const resp = await patchCall('update', { ...values, userId });
     if (resp.success) {
@@ -61,6 +64,8 @@ const UpdateUserModal = ({ open = false, handleClose }: { open: boolean; handleC
     }
   };
 
+  //This will work as onMount function and will dispatch getUserDetails
+  //as soon as this component mounts
   useEffect(() => {
     dispatch(getUserDetails(localStorage.getItem('user')));
   }, []);

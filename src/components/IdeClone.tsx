@@ -1,15 +1,11 @@
-import React, { useEffect } from "react";
 import SampleSplitter from "./SampleSplitter";
 import { useResizable } from "react-resizable-layout";
 import { cn } from "../utils/cn";
 import '../styles/IdeClone.css'
 import UserData from "./user/UserData";
-import { useAppDispatch } from "../store/hooks";
-import { getUserDetails } from "../store/reducres/userReducer";
 import TotalCount from "./TotalCount";
 
 const IdeClone = (): JSX.Element => {
-  const dispatch = useAppDispatch();
 
   const {
     isDragging: isTerminalDragging,
@@ -29,16 +25,6 @@ const IdeClone = (): JSX.Element => {
     axis: "x",
     initial: 250,
     min: 50
-  });
-  const {
-    isDragging: isPluginDragging,
-    position: pluginW,
-    splitterProps: pluginDragBarProps
-  } = useResizable({
-    axis: "x",
-    initial: 200,
-    min: 50,
-    reverse: true
   });
 
   return (

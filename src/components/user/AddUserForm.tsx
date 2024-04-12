@@ -3,7 +3,6 @@ import * as yup from 'yup';
 import { Box, Button, Modal, TextField } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { postCall } from '../../utils/apiCalls';
-import { useEffect, useState } from 'react';
 import { getTotalCount } from '../../store/reducres/countReducer';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getUserDetails } from '../../store/reducres/userReducer';
@@ -33,6 +32,7 @@ const useStyles = makeStyles({
   },
 });
 
+//Validation schema using yup for add user form
 const validationSchema = yup.object({
   email: yup.string().email('Enter a valid email').required('Email is required'),
   name: yup.string().required('Name is required'),
@@ -46,8 +46,8 @@ const validationSchema = yup.object({
 const AddUserForm = ({ open, handleClose }: { open: boolean; handleClose: () => void }) => {
   const dispatch = useAppDispatch();
   const styles = useStyles();
-  const user = useAppSelector((state) => state.user);
 
+  //form submit handler
   const handleSubmit = async (values: FormikValues) => {
     const resp = await postCall('add', values);
     if (resp.success) {
@@ -59,6 +59,7 @@ const AddUserForm = ({ open, handleClose }: { open: boolean; handleClose: () => 
     }
   };
 
+  //formik is a package for automatic handling of controlled inputs, form submission and error text
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -74,6 +75,7 @@ const AddUserForm = ({ open, handleClose }: { open: boolean; handleClose: () => 
   });
 
   return (
+    //MUI Modal
     <Modal
       open={open}
       onClose={handleClose}

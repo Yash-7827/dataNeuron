@@ -8,28 +8,28 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getUserDetails } from '../../store/reducres/userReducer';
 
 const useStyles = makeStyles({
-    root: {
-        display: 'flex',
-        flexDirection: 'row',
-    }
+  root: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
 });
 
 const UserData = () => {
-    const styles = useStyles();
-    const dispatch = useAppDispatch();
+  const styles = useStyles();
+  const dispatch = useAppDispatch();
   const [count, setCount] = useState<{
-    updated: 0,
-    added: 0,
+    updated: 0;
+    added: 0;
   }>();
 
-  const user = useAppSelector(state => state.user);
+  const user = useAppSelector((state) => state.user);
 
   const fetchCount = async () => {
     const resp = await getCall('count', {});
     if (resp.success) {
       const added = resp.data.added;
       const updated = resp.data.updated;
-      setCount({added: added, updated: updated});
+      setCount({ added: added, updated: updated });
     }
   };
 
@@ -46,12 +46,11 @@ const UserData = () => {
           <h2>Added Count: {count.added}</h2>
           <h2>Total Count: {count.updated + count.added}</h2>
           <Box>
-        <Button>Update</Button>
-        <Button onClick={fetchCount}>Count</Button>
-      </Box>
+            <Button>Update</Button>
+            <Button onClick={fetchCount}>Count</Button>
+          </Box>
         </div>
       )}
-      
     </Box>
   );
 };
